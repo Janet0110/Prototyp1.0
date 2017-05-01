@@ -1,0 +1,30 @@
+/* CSS declarations go here */
+#toast-container {
+    right: 28px;
+    top: 33px;
+}
+
+.toast{
+    &.error{
+        background-color: #6a6c77 !important;
+    }
+    &.success{
+        background-color: darkseagreen !important;
+    }
+}
+
+input[type=text]:focus:not([readonly]){
+    border-bottom: 1px solid darkseagreen !important;
+    box-shadow: 0 1px 0 0 darkseagreen !important;
+}
+
+.modal{
+    width: 27% !important;
+    h4{
+        font-size: 1.28rem !important;
+    }
+}
+
+.btn:hover {
+    background-color: darkseagreen;
+}

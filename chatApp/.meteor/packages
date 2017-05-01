@@ -1,0 +1,30 @@
+# Meteor packages used by this project, one per line.
+# Check this file (and the other files in this directory) into your repository.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+meteor-platform
+react
+kadira:flow-router
+kadira:react-layout
+kadira:reaktor
+meteorhacks:npm
+npm-container
+cosmos:browserify
+accounts-password
+accounts-ui
+meteorhacks:flow-layout
+
+materialize:materialize@=0.97.7
+tracker
+jquery
+spacebars
+fourseven:scss
+check
+less
+session
+reactive-var
+email
+random
+meteorhacks:ssr
