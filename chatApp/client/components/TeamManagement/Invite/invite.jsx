@@ -6,7 +6,6 @@ Invite = React.createClass({
         if(handle.ready()){
             invite = Invites.find({_id: this.props.inviteId}).fetch();
         }
-        console.log(invite);
         return {
             invite : invite
         };

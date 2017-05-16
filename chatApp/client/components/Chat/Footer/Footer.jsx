@@ -34,7 +34,6 @@ Footer = React.createClass({
         });
     },
    render(){
-       console.log(currentUser());
        return(
            <div className="footer">
                <div className="user-menu">

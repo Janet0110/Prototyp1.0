@@ -5,6 +5,7 @@ MainLayout = React.createClass({
         <Header {...this.props}/>
         {this.props.sidebar}
         <main>{this.props.content}</main>
+        <ChannelSidebar/>
         <Footer />
       </div>
     );

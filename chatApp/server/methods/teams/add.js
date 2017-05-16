@@ -12,7 +12,12 @@ Meteor.methods({
         if (Teams.find({name: opts.name}).count() > 0) {
             throw new Meteor.Error("Team already exists");
         }else{
-            return Teams.insert(opts);
+            var teamId = Teams.insert(opts);
+            var role = Roles.findOne({_id: 'admin'}, {fields:{_id: 1}});
+            Meteor.call('addUserToRole', Rol.ADMIN, teamId, Meteor.userId, function(err){
+                console.log(err);
+            });
+            return teamId;
         }
     },
 

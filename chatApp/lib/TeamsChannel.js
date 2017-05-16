@@ -1,0 +1,1 @@
+TeamsChannel = new Mongo.Collection("teamsChannel");

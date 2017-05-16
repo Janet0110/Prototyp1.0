@@ -1,5 +1,4 @@
 Meteor.publish("myTeams", function(userId) {
-    console.log(userId);
     var result = Teams.find({"users.user" : userId});
     return result;
 });

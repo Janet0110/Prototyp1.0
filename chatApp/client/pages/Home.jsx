@@ -1,6 +1,5 @@
 Home = React.createClass({
   render() {
-      console.log(this.props.team);
     return (
       <div>
           <Header {...this.props}/>

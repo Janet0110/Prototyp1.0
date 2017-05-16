@@ -3,10 +3,7 @@ Meteor.methods({
         if(!userId){
             throw new Meteor.Error(401, 'Unauthorized access');
         }
-
         this.unblock();
-        console.log(userId + " - " + to + " - " + " - " + from + " - " + subject + " - " + text);
-
         if(validateEmail(to)){
             var inviteId = Invites.insert({
                email: to,
@@ -49,15 +46,16 @@ Meteor.methods({
                 if (Teams.findOne({_id: teamId, "users.user": user._id})) {
                     throw new Meteor.Error("User is already in team");
                 } else {
-                    console.log("userId: " + user._id + ", username: " + user.username + ", teamId: " + teamId);
                     var opts = {
                         userId: user._id,
                         username: user.username,
                         teamId: teamId,
                     };
                     var updated;
+
                     //Update Invite
                     Meteor.call("team.addUser", opts, function () {
+
                         updated = Invites.update({_id: invite._id}, {$set: {invited: true}});
                     });
                     return 1;

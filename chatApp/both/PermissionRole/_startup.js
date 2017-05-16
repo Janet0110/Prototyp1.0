@@ -1,8 +1,6 @@
 if(Meteor.isServer){
     Meteor.startup(function(){
-        console.log("PermissionRole init");
-
-        permissions = [
+         permissions = [
             { _id: 'edit-message',      roles : ['admin', 'owner', 'moderator']},
             { _id: 'delete-message',    roles : ['admin', 'owner', 'moderator']},
             { _id: 'delete-room',       roles : ['admin', 'owner', 'moderator']},
