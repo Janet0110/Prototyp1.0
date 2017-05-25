@@ -14,7 +14,6 @@ Listings = React.createClass({
             teamSidebar: false
         }
     },
-
     componentWillMount(){
         var teamSidebarState = new ReactiveVar({open: null });
         this.c = Tracker.autorun(() => {

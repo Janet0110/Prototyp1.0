@@ -1,4 +1,5 @@
 canJoinChannel = function(channelName){
+
     var teamId = currentTeamId();
     var channelId = getChannelId(channelName, currentTeamId());
         Meteor.call('hasChannelPermission', Perm.JOIN_PRIVATE_CHANNEL,  currentTeamId(),  User.id(), channelId, function(err, canJoin) {
@@ -16,6 +17,12 @@ canJoinChannel = function(channelName){
 };
 
 Channel = React.createClass({
+    mixins: [ReactMeteorData],
+    getMeteorData(){
+        return{
+            channelJoin: Session.get(this.props.doc.name)
+        }
+    },
     getInitialState: function(){
         return{
             private: this.props.doc.private,
@@ -23,14 +30,19 @@ Channel = React.createClass({
         }
     },
     canJoin: function(channelName){
-        if(Session.get(channelName)){
-            return channelName;
+        if(this.data.channelJoin){
+            return channelName
         }else{
-            return "";
+            return ""
         }
+
+//        if(Session.get(channelName)){
+//            return channelName;
+//        }else{
+//            return "";
+//        }
     },
     giveFeedback: function(channel){
-
         if(!Session.get(channel)){
             Materialize.toast("not authorized", 4000, "error");
         }

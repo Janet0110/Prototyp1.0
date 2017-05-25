@@ -7,8 +7,23 @@ TeamSidebar = React.createClass({
     },
     getInitialState(){
         return {
-            inputValue: ""
+            inputValue: "",
+            isAdmin: false
         }
+    },
+    componentWillMount(){
+        var self = this;
+      Meteor.call("isAdmin", currentTeamId(), Meteor.userId(), function(err, result) {
+          if(!err){
+              self.setState({
+                  isAdmin: true
+              })
+          }else{
+              self.setState({
+                  isAdmin: false
+              })
+          }
+      })
     },
 
     render:function(){
@@ -16,6 +31,8 @@ TeamSidebar = React.createClass({
             name: "Invite",
             onClick: this.inviteUser
         };
+
+
         return(
             <div className="teamSidebar">
                 <div className="teamSidebar_header">
@@ -33,8 +50,16 @@ TeamSidebar = React.createClass({
 
                     {this.renderUserList()}
                 </ul>
+                {console.log(this.state.isAdmin)}
+                <div>
+                    <a className="permission" href='' onClick={this.state.isAdmin ? this.permissionsLink.bind(this) : this.showErrorMessage.bind(this)}>Permissions</a><br></br>
+                    <a className="userRoles" href='' onClick={this.state.isAdmin ? this.rolesLink.bind(this) : this.showErrorMessage.bind(this)}>User roles</a>
+                </div>
             </div>
             )
+    },
+    showErrorMessage: function(){
+        Materialize.toast("not authorized", 4000, "error");
     },
     inviteUser: function() {
         var team = currentTeam();
@@ -50,7 +75,12 @@ TeamSidebar = React.createClass({
             }
         });
     },
-
+    permissionsLink: function(){
+         FlowRouter.go('permissions', { team: Session.get('team') });
+    },
+    rolesLink: function(){
+        FlowRouter.go('roles', { team: Session.get('team') });
+    },
 
     updateInputValue: function(evt){
         this.setState({

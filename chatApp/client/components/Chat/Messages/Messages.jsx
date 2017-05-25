@@ -37,11 +37,13 @@ MessageContainer = React.createClass({
         var messages = [];
         this.data.msgs.map((message) => {
             var user = Meteor.users.find(message.user).fetch()[0];
+            console.log(message);
             messages.push (
                     <li>
                         <a href="" className="message_profile-pic"></a>
                         <a href="" className="message_username">{user.username}</a>
                         <span className="message_timestamp">{this.formatTime(message.date)}</span>
+                        <DeleteMessageTool messageId={message._id}/>
                         <span className="message_content"> {message.text}</span>
                     </li>
             )

@@ -12,7 +12,6 @@ FlowRouter.route('/login', {
         });
     },
     triggersEnter: [isLoggedIn]
-
 });
 
 FlowRouter.route('/register', {
@@ -26,11 +25,11 @@ FlowRouter.route('/register', {
 
 FlowRouter.route('/teams', {
     name: 'teamList',
-//    subscriptions: function(params) {
-//        if(Meteor.userId()){
-//            this.register('teams', Meteor.subscribe('myTeams', Meteor.userId()));
-//        }
-//    },
+    subscriptions: function(params) {
+        if(Meteor.userId()) {
+            this.register('teams', Meteor.subscribe('myTeams', Meteor.userId()));
+        }
+    },
     action: function () {
         ReactLayout.render(BlankLayout, {
             content: <TeamList />
@@ -79,8 +78,6 @@ teamGroup.route('/channel/:channel',{
     });
     },
     triggersEnter:[function(context, redirect, params){
-        isUserInChannel();
-
         if(Meteor.userId()){
             Session.set("Channel", context.params.channel);
             Session.set("team", context.params.team);
@@ -93,9 +90,47 @@ teamGroup.route('/channel/:channel',{
         }
     }]
 });
+teamGroup.route('/permissions', {
+    name:"permissions",
+    action(params, queryParams){
+        ReactLayout.render(AdminLayout, {
+            header: <HeaderAdmin /> ,
+            content: <PermissionsPage  />
+        });
+    },
+    subscriptions: function(params){
+        this.register("roles", Meteor.subscribe('roles', Meteor.userId()));
+        this.register("permissions", Meteor.subscribe('permissions', Meteor.userId()));
+    },
+    triggersEnter:[function(context, redirect, params){
+        if(Meteor.userId()){
+            Session.set("team",context.params.team);
+        }
+    }]
+});
+
+teamGroup.route('/roles', {
+    name:"roles",
+    action(params, queryParams){
+        ReactLayout.render(AdminLayout, {
+            header: <HeaderAdmin /> ,
+            content: <UserRoles  />
+        });
+    },
+    subscriptions: function(params){
+        this.register("roles", Meteor.subscribe('roles', Meteor.userId()));
+        this.register("permissions", Meteor.subscribe('permissions', Meteor.userId()));
+        this.register("userRoles", Meteor.subscribe('userRolesInChannel', Meteor.userId(), params.team));
+    },
+    triggersEnter:[function(context, redirect, params){
+        if(Meteor.userId()){
+            Session.set("team",context.params.team);
+        }
+    }]
+});
 
 function isLoggedIn(context, doRedirect) {
-    if (Meteor.userId()) {
+    if (User.isLoggedIn()) {
         if (!Session.get("team")){
             FlowRouter.go('/teams');
         }else{
@@ -104,9 +139,6 @@ function isLoggedIn(context, doRedirect) {
     } else {
         FlowRouter.go('/login');
     }
-}
-
-function isUserInChannel(context, doRedirect){
 }
 
 FlowRouter.notFound = {

@@ -15,6 +15,8 @@ currentChannelId = function(){
 };
 
 getChannelId = function(channelName, teamId){
+    console.log("name: " + channelName);
+    console.log("teanId: " + teamId);
     var channelObj = Channels.findOne({ name: channelName, 'team._id': teamId}, { fields: {
         _id: 1
     }});

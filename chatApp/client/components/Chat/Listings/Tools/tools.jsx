@@ -49,14 +49,17 @@ ChannelTool = React.createClass({
                     <DropdownMenuParent name={channelSettingName}>
                             <DropDownMenuChild onClick={this.warningPopUp} nameButton="Remove channel"/>
                             <DropDownMenuChild onClick={this.addUserDialog} nameButton="Add user to channel"/>
+                            <DropDownMenuChild onClick={this.toast} nameButton="Toast"/>
                     </DropdownMenuParent>
                 </ul>
                 {deleteDialog}
                 {addUserDialog}
-
             </div>
        )
    },
+    toast: function(){
+      Materialize.toast("test success", 4000, "success");
+    },
     addUserContent: function(){
         var content =[];
         console.log(currentChannel())

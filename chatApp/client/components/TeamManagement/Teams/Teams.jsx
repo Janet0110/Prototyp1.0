@@ -1,11 +1,11 @@
 TeamList = React.createClass({
     mixins: [ReactMeteorData],
     getMeteorData(){
-        var handle = Meteor.subscribe('myTeams', User.id());
+//        var handle = Meteor.subscribe('myTeams', User.id());
         var teams = [];
-        if(handle.ready()){
-            teams = Teams.find({"users.user": User.id()}).fetch()
-        }
+//        if(handle.ready()){
+            teams = Teams.find({"users.user": User.id()}).fetch();
+//        }
         return{
             teams
         };

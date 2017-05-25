@@ -1,5 +1,5 @@
 Meteor.methods({
-    'addUserToChannelRole': function(roleName, teamId,  userId, userName, channelName) {
+    'addUserToChannelRole': function(roleName, teamId,  userId, userName, channelIdName) {
         var user = null;
         if(userId == null){
             user = Meteor.users.findOne({username: userName});
@@ -12,8 +12,11 @@ Meteor.methods({
         if(!user){
             throw new Meteor.Error("User doesn't exists");
         }
-
-        var channel = Channels.findOne({name: channelName});
+        var channel = null;
+        channel = Channels.findOne({name: channelIdName});
+        if(!channel){
+            channel = Channels.findOne(channelIdName);
+        }
         if (Meteor.userId()) {
 
             var channelExists = Meteor.users.find({_id: user._id, teams: {$elemMatch: {id: teamId, channels: {$elemMatch: {id: channel._id}}}}}).fetch();
@@ -37,6 +40,7 @@ Meteor.methods({
                 if(!userInTeam){
                     throw new Meteor.Error("User is not in team");
                 }
+                Channels.update(channel._id, {$push: {'users': {user: userId}}});
                 var opts = {
                     id: channel._id,
                     role: roleName
