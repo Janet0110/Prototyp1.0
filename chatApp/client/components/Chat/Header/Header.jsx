@@ -47,7 +47,6 @@ Header = React.createClass({
                         <span className="toolbox">
                                <ChannelTool/>
                                <ChannelInfo/>
-                            <Footer />
                         </span>
                     </span>
                     <ul id="nav-mobile" className="right hide-on-med-and-down ulList" >
