@@ -1,5 +1,6 @@
 Invites = new Meteor.Collection( 'invites' );
 
+/*Befugnis für MongoDB*/
 Invites.allow({
     insert: function(){
         return false;

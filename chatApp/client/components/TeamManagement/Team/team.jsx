@@ -1,5 +1,7 @@
 TeamCreate = React.createClass({
+    /*Initialisierung von ReactMeteorData, um in der Komponente Meteors-Methoden anwenden zu können*/
     mixins: [ReactMeteorData],
+    /*holt sich userId und usernamen*/
     getMeteorData(){
         return{
             userId: User.id(),
@@ -7,6 +9,7 @@ TeamCreate = React.createClass({
         }
     },
 
+    /*Form-Submit für die Erstellung eines neuen Teams*/
     onSubmit(e){
         e.preventDefault();
         var formData = e.target;
@@ -24,6 +27,7 @@ TeamCreate = React.createClass({
 
 
         };
+        /*Aufruf Meteors Methode, um ein Team hinzuzufügen*/
         Meteor.call("team.add", optsTeam, function(err, result){
             if(!err){
                 Meteor.call("channels.add", result, 'general', function(err){
@@ -39,10 +43,9 @@ TeamCreate = React.createClass({
                 Materialize.toast(err.message, 4000, "error");
             }
         });
-
-
     },
 
+    /*rendert Darstellung*/
     render() {
         return (
             <div className="container">

@@ -1,20 +1,26 @@
+/*weitere Implementierung für das Öffnen eines Dialogfensters*/
 DialogModalPopUp = React.createClass({
+    /*Zustand für sichrbarkeit des Dialogfensters*/
     getInitialState: function(){
         return{
             dialogVisible: true
         }
     },
+    /*Funktion für das Öffnen des Dialogfensters*/
     show: function(){
         this.setState({dialogVisible: true});
     },
+    /*Submit innerhalb des Dialogfensters*/
     submit: function(){
         this.props.buttonName.onClick();
         this.setState({dialogVisible: false});
     },
+    /*Schließt das Dialogfenster*/
     close: function(){
         this.props.buttonName.close();
         this.setState({dialogVisible: false});
     },
+    /*rendert die Darstellung*/
     render: function(){
         return (
             <div>

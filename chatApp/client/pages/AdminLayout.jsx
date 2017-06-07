@@ -1,4 +1,5 @@
 AdminLayout = React.createClass({
+    /*Admin-Layout für Permission und Role_page*/
     render() {
         return(
         <main>

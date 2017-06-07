@@ -1,6 +1,7 @@
 Meteor.methods({
+    /*Überpüft, ob Benutzer die Channel-Berechtigung hat*/
     'hasChannelPermission': function(permission, teamId,  userId , channelId){
-//        console.log(permission + " + " + teamId + " + " + userId  + " + " + channelId);
+
         if(Meteor.userId()){
             if(!userId){
                 throw new Meteor.Error("no specification for userId");

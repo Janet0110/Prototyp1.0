@@ -1,17 +1,20 @@
 ChannelSidebar = React.createClass({
+    /*Initialisierung von ReactMeteorData, um in der Komponente Meteors-Methoden anwenden zu können*/
     mixins: [ReactMeteorData],
+    /*Überprüft, ob ChannelSidebar dem Benutzer angezeigt werden soll. Holt sich die Benutzer, die sich im Channel befinden für die Anzeige */
     getMeteorData(){
         return{
             channelSidebarActiv: Session.get("channelSidebar"),
             usersInChannel: Channels.find(currentChannelId, {fields: {_id: 1, 'users.user':1, owner: 1}}).fetch()
         }
     },
-
+    /*Initialisiert den Zustand channelSidebarActiv durch die Session*/
     getInitialState: function(){
         return{
             channelSidebarActiv: Session.get("channelSidebar")
         }
     },
+    /*rendert die Darstellung*/
     render(){
         var sidebar = null;
         if(this.data.channelSidebarActiv){
@@ -36,6 +39,7 @@ ChannelSidebar = React.createClass({
             </div>
         )
     },
+    /*itieriert das von Meteor gelieferte Objekt, um die Benutzer im Channel anzuzeigen*/
     renderUsers: function(){
         var users = [];
         var channel = this.data.usersInChannel;

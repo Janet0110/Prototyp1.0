@@ -1,5 +1,5 @@
+/*Objekt Berechtigungen für den globalen Aufruf innerhalb Komponenten*/
 Perm = Object.freeze({
-
     //---------------Permissions---------------
     INVITE_USER: 			"invite-user-to-team",
     CREATE_CHANNEL:	        "create-channel",

@@ -1,5 +1,7 @@
 PermissionsPage = React.createClass({
+    /*Initialisierung von ReactMeteorData, um in der Komponente Meteors-Methoden anwenden zu können*/
     mixins: [ReactMeteorData],
+    /*holt sich Rollen und Berechtigungen für das aktuelle Team*/
     getMeteorData(){
         return {
             team: Session.get("team"),
@@ -9,12 +11,14 @@ PermissionsPage = React.createClass({
             permissionsCh: getPermissionsCh()
         }
     },
+    /*Zustand für das Input-Check-Feld*/
     getInitialState: function(){
         var checked = new ReactiveVar("");
         return{
             checked
         }
     },
+    /*rendert die Darstellung*/
     render() {
         return (
             <div className='permissions'>
@@ -50,9 +54,11 @@ PermissionsPage = React.createClass({
             </div>
         );
     },
+    /*Handling für die Navigation, um zurück zur Chatinstanz zu kommen*/
     backLink: function () {
         FlowRouter.go('channel', {team: Session.get("team"), channel: 'general'});
     },
+    /*rendert globale Rollen*/
     renderRolesGlobal: function () {
         var roles = [];
         this.data.rolesGl.map((role) => {
@@ -62,6 +68,7 @@ PermissionsPage = React.createClass({
         });
         return roles;
     },
+    /*rendert globale Berechtigungen*/
     renderPermissionsGlobal: function () {
         var permissions = [];
         this.data.permissionsGl.map((permission) => {
@@ -74,6 +81,8 @@ PermissionsPage = React.createClass({
         });
         return permissions;
     },
+
+
     renderRolesGlobalForGlobalPermissions: function(permissionsId){
         var roles = [];
         this.data.rolesGl.map((role) => {
@@ -83,6 +92,7 @@ PermissionsPage = React.createClass({
         });
         return roles;
     },
+    /*rendert Channel-Rollen*/
     renderChannelRoles: function() {
         var roles = [];
         this.data.rolesCh.map((role) => {
@@ -92,6 +102,7 @@ PermissionsPage = React.createClass({
         });
         return roles;
     },
+    /*rendert Channel-Berechtigungen*/
     renderChannelPermissions: function(){
         var permissions = [];
         this.data.permissionsCh.map((permission) => {
@@ -106,19 +117,17 @@ PermissionsPage = React.createClass({
     },
     renderRolesChForPermissionsCh: function(permissionId){
         var roles = [];
-
         this.data.rolesCh.map((role) => {
             roles.push(
                 <td><CheckFieldPermission role={role._id} permission={permissionId}/></td>
             );
         });
-
         return roles;
     },
+    /*Überprüft ob Berechtigung für die Rolle aktiv ist*/
     permissionActive: function(permission, roleId){
         var perm = Permissions.findOne({$and: [{_id: permission}, {"roles": roleId}]});
         if(Permissions.findOne({$and: [{_id: permission}, {"roles": roleId}]})){
-            console.log(permission + " + " + roleId + " checked" );
             this.setState({
                 checked: {
                     permission: permissionId,

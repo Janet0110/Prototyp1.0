@@ -1,3 +1,4 @@
+/*Server-Anagben für den Email-Service sind hier vorzunehmen*/
 if (Meteor.isServer) {
     Meteor.startup(function () {
         process.env.MAIL_URL = "smtp://EMAIL:Password@smtp.live.com:587";

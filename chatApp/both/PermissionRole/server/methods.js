@@ -1,3 +1,4 @@
+/*unbenutzt*/
 Meteor.methods({
     'addRolePermission': function (permission, roleId) {
     },

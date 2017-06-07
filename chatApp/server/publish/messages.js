@@ -1,3 +1,4 @@
+/*Liefert Datenbestand Nachrichten im aktuellen Team und Channel*/
 Meteor.publish('channelMessages', function (channelName, teamName) {
     if (this.userId) {
         var teamId = Teams.findOne({name: teamName})._id;

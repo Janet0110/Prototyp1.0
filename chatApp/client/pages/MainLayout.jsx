@@ -1,4 +1,5 @@
 MainLayout = React.createClass({
+    /*Layout für Chat*/
   render() {
     return (
       <div>

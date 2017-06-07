@@ -1,4 +1,6 @@
 Register = React.createClass({
+    /*Form-Submit, um ein Benutzer zu registrieren und einzuloggen.
+     Holt sich die eingegebenen Werte und überprüft ob, Eingaben stimmen und leitet loggt Benutzer gleich mit den eingegebenen Werte ein*/
    onSubmit(e){
         e.preventDefault();
         var formData = e.target;
@@ -13,6 +15,7 @@ Register = React.createClass({
            username: username
        };
 
+       /*Benutzer wird erstellt und anschließend eingeloggt*/
        User.create(accountInfo, function(err){
           if(!err){
                 Meteor.loginWithPassword(username, password, function(err){

@@ -1,4 +1,5 @@
 BlankLayout = React.createClass({
+    /*Layout für Login und Registration*/
     render() {
         return (
             <div>

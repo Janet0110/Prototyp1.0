@@ -1,5 +1,6 @@
 canJoinChannel = function(channelName){
-
+    /*Überprüft ob der Benutzer mit der aktuellen Rolle den Channel betreten kann und setzt gegebenfalls den Zustand,
+    damit der Benutzer den Channel nicht betreten kann*/
     var teamId = currentTeamId();
     var channelId = getChannelId(channelName, currentTeamId());
         Meteor.call('hasChannelPermission', Perm.JOIN_PRIVATE_CHANNEL,  currentTeamId(),  User.id(), channelId, function(err, canJoin) {
@@ -17,36 +18,35 @@ canJoinChannel = function(channelName){
 };
 
 Channel = React.createClass({
+    /*Initialisierung von ReactMeteorData, um in der Komponente Meteors-Methoden anwenden zu können*/
     mixins: [ReactMeteorData],
     getMeteorData(){
         return{
             channelJoin: Session.get(this.props.doc.name)
         }
     },
+    /*Initialisiert den Zustand mit private udn channel*/
     getInitialState: function(){
         return{
             private: this.props.doc.private,
             channel: ""
         }
     },
+    /*überprüft ob der Channel betreten werden darf*/
     canJoin: function(channelName){
         if(this.data.channelJoin){
             return channelName
         }else{
             return ""
         }
-
-//        if(Session.get(channelName)){
-//            return channelName;
-//        }else{
-//            return "";
-//        }
     },
+    /*erstellt ein Toast*/
     giveFeedback: function(channel){
         if(!Session.get(channel)){
             Materialize.toast("not authorized", 4000, "error");
         }
     },
+    /*rendert die Darstellung*/
     render(){
         //Überprüfung aller Channels, ob betretbar oder nicht //erneutes Rendern erforderlich
         canJoinChannel(this.props.doc.name);

@@ -1,4 +1,6 @@
 Login = React.createClass({
+    /*Form-Submit um ein Benutzer zu authentifizieren und einzuloggen.
+    Holt sich die eingegebenen Werte und überprüft ob, Eingaben stimmen und leitet weiter zur Team-Seite*/
     onSubmit(e){
         e.preventDefault();
         var formData = e.target;

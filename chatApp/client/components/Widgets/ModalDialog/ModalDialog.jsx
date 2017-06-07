@@ -1,27 +1,36 @@
+/*erstellt ein Dialogfenster*/
 DialogModal = React.createClass({
     propTypes: {
         name: React.PropTypes.string.isRequired
     },
+    /*Zustand für das Anzeigen des Fensters*/
     getInitialState: function(){
         return{
             dialogVisible: false,
             active: false
         }
     },
+    /*Nach der Erstellung der komponenten wird Dialogfenster initialisiert*/
     componentDidMount: function() {
         var modelDialog = this.refs.modalRef;
     },
 
+    /*Funktion für Öffnen des Dialogfensters*/
     show: function(){
         this.setState({dialogVisible: true});
     },
+
+    /*Funktion für Submit innerhalb des Dialogfensters*/
     submit: function(){
         this.props.buttonName.onClick();
         this.setState({dialogVisible: false});
     },
+
+    /*Schließt das Dialogfenster*/
     close: function(){
         this.setState({dialogVisible: false});
     },
+    /*rendert die Darstellung und überprüft, ob Dialogfenster angezeigt werden soll*/
     render: function(){
         if(this.props.active === "visible"){
             this.setState({

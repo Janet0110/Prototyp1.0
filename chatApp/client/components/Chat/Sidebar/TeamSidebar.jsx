@@ -1,16 +1,20 @@
 TeamSidebar = React.createClass({
+    /*Initialisierung von ReactMeteorData, um in der Komponente Meteors-Methoden anwenden zu können*/
     mixins: [ReactMeteorData],
+    /*Holt sich Daten des aktuellen Teams für die Anzeige der Benutzer im Team*/
     getMeteorData(){
         return {
             users: Teams.find({}, {fields: {"users": 1}}).fetch()[0].users
         };
     },
+    /*Zustand für Eingabefeld, um einen Benutzer einzuladen + Zustand, ob Benutzer Admin ist*/
     getInitialState(){
         return {
             inputValue: "",
             isAdmin: false
         }
     },
+    /*Bevor Komponente erstellt wird, wird abgefragt ob aktueller Benutzer Admin ist, um einen Zugriff auf Rollen und Berechtigungen zu bekommen*/
     componentWillMount(){
         var self = this;
       Meteor.call("isAdmin", currentTeamId(), Meteor.userId(), function(err, result) {
@@ -26,6 +30,7 @@ TeamSidebar = React.createClass({
       })
     },
 
+    /*rendert die Darstellung*/
     render:function(){
         var buttonName = {
             name: "Invite",
@@ -58,15 +63,18 @@ TeamSidebar = React.createClass({
             </div>
             )
     },
+    /*zeigt eine Toast-Meldung*/
     showErrorMessage: function(){
         Materialize.toast("not authorized", 4000, "error");
     },
+    /*lädt einen weiteren Benutzer ein und bereitet den Inhalt für das Senden einer E-Mail vor*/
     inviteUser: function() {
         var team = currentTeam();
         var to = this.state.inputValue;
         var from = "JanetRahn@msn.com";
         var subject = "Invite for ChatApp in Team " + currentTeam().name;
         var text = "test ";
+        /*ruft Meteors Methode "team-Invite" auf, um einen Benutzer einzuladen*/
         Meteor.call("team.invite", Meteor.userId(), team, to, from, subject, text, function(err) {
             if (!err) {
                 Materialize.toast("Sent invitation", 4000, "success");
@@ -75,20 +83,23 @@ TeamSidebar = React.createClass({
             }
         });
     },
+    /*Weiterleitung zur Permissions-Komponente*/
     permissionsLink: function(){
          FlowRouter.go('permissions', { team: Session.get('team') });
     },
+    /*Weiterleitung zur Roles-Komponente*/
     rolesLink: function(){
         FlowRouter.go('roles', { team: Session.get('team') });
     },
 
+    /*aktualisiert Zustand durch Eingabe in das Eingabefeld*/
     updateInputValue: function(evt){
         this.setState({
             inputValue: evt.target.value
         });
     },
 
-
+    /*rendert Darstellung*/
     renderForm: function(){
         return(
             <div>
@@ -104,6 +115,7 @@ TeamSidebar = React.createClass({
         );
     },
 
+    /*iteriert User-Objekt für das Anzeigen der User, die sich im Team befinden*/
     renderUserList: function(){
         var users = [];
         this.data.users.map((doc) => {

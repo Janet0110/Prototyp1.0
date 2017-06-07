@@ -1,17 +1,21 @@
 MessageContainer = React.createClass({
+    /*Initialisierung von ReactMeteorData, um in der Komponente Meteors-Methoden anwenden zu können*/
     mixins: [ReactMeteorData],
+    /*Holt sich die Nachrichten, die in dem Channel geschrieben wurden.*/
     getMeteorData(){
       return{
           msgs : Messages.find({"channel": currentChannelId()}).fetch()
       }
     },
 
+    /*Zustand für die Anzeige der aktuellen Zeit*/
     getInitialState: function(){
         return{
             time:""
         }
     },
 
+    /*Formartiert Zeitangabe an Nachricht*/
     formatTime: function(date){
         var date = new Date(date);
         var day = date.getDay();
@@ -23,6 +27,7 @@ MessageContainer = React.createClass({
         return month + '/' + day + "/" + year + " " + hours + ':' + minutes.substr(minutes.length-2) + ':' + seconds.substr(seconds.length-2);
     },
 
+    /*rendert Nachricht*/
     render(){
        return(
            <div className="messages_container">
@@ -33,11 +38,11 @@ MessageContainer = React.createClass({
        )
    },
 
+    /*iteriert Nachrichten-Objekt für die einzelne Darstellung einer Nachricht*/
     renderMessages: function(){
         var messages = [];
         this.data.msgs.map((message) => {
             var user = Meteor.users.find(message.user).fetch()[0];
-            console.log(message);
             messages.push (
                     <li>
                         <a href="" className="message_profile-pic"></a>

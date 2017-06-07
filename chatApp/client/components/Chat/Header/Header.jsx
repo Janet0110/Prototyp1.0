@@ -1,17 +1,20 @@
-
-
 Header = React.createClass({
+    /*Initialisierung von ReactMeteorData, um in der Komponente Meteors-Methoden anwenden zu können*/
     mixins: [ReactMeteorData],
+    /*holt sich den Usernamen von Meteor und den aktuellen Teamnamen aus der Session*/
     getMeteorData(){
         return{
             username: User.get().username,
             team: Session.get("team")
         }
     },
+    /*loggt Benutzer aus*/
     logout: function(){
       Meteor.logout();
     },
+    /*rendert die Darstellung*/
   render() {
+      /*erstellt für das Dropdown-Menü einzelne Unterpunkte mit einem onClick-Handler*/
       var accountList = [{
           name: "Logout",
           onClick:  function(){
@@ -27,6 +30,7 @@ Header = React.createClass({
           name: "changePassword"
       }];
 
+      /*Anzeigename für das Dropdown-Menü*/
     var accountName = this.getMeteorData().username;
     return (
         <nav className="header" >

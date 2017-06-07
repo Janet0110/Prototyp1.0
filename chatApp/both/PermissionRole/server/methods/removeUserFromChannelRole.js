@@ -1,4 +1,5 @@
 Meteor.methods({
+    /*Entfernt die Channel-Rolle des Benutzers*/
     'removeUserFromChannelRole': function(roleName, teamId,  userId, username, channelName){
 
         var channel = null;

@@ -1,5 +1,3 @@
-
-
 HeaderAdmin = React.createClass({
     mixins: [ReactMeteorData],
     getMeteorData(){

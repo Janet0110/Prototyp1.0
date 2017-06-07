@@ -1,5 +1,7 @@
 UserRoles = React.createClass({
+    /*Initialisierung von ReactMeteorData, um in der Komponente Meteors-Methoden anwenden zu können*/
     mixins: [ReactMeteorData],
+    /*holt sich alle Channels im Team sowie die Benutzer und die Rollen*/
     getMeteorData(){
         return{
             channels: Channels.find().fetch(),
@@ -7,12 +9,14 @@ UserRoles = React.createClass({
             users: Meteor.users.find({'_id': {$ne: User.id()}}).fetch(),
         }
     },
+    /*Zustand für die Input-Feldert*/
     getInitialState: function(){
         return{
             selectValue: "",
             selectedChannelId : ""
         }
     },
+    /*rendert die Darstellung*/
     render(){
         return (
             <div className="userRoles">
@@ -34,31 +38,14 @@ UserRoles = React.createClass({
                         </thead>
                         <tbody>
                         {this.renderUsers()}
-                        {/*{{#each users}}*/}
-                        {/*<tr class = "rows" id={{_id}}>*/}
-                        {/*<td><span class="username-text">{{username}}</span>*/}
-
-                        {/*<!--<input type="radio" id="{{_id}}" name="globalRole" {{isTeamAdmin _id}}><label id="{{_id}}">{{_id}}</label>-->*/}
-                        {/*<input type="checkbox"  checked={{isTeamAdmin _id}}><label id="admin" name="adminRole" checked= {{isTeamAdmin ../_id}}>Admin</label>*/}
-
-                        {/*</td>*/}
-                        {/*{{#each roles}}*/}
-                        {/*{{#with userId = ../_id roleId = _id}}*/}
-                        {/*<td><input id="{{_id}}"  checked={{permissionActive ../_id}} type="checkbox"><label id="{{this.roleId}}" checked = {{permissionActive ../_id}} name="channelRoles"></label></td>*/}
-                        {/*{{/with}}*/}
-                        {/*{{/each}}*/}
-                        {/*</tr>*/}
-                        {/*{{/each}}*/}
                         </tbody>
                     </table>
                     <div className="backLink">Back</div>
                 </div>
             </div>
-//    {{else}}
-//    {{> notAuthorized}}
-//    {{/if}}
         )
     },
+    /*iteriert das User-Objekt für den Renderprozess*/
     renderUsers: function(){
         var users = [];
         this.data.users.map((user) => {
@@ -73,6 +60,7 @@ UserRoles = React.createClass({
         });
         return users;
     },
+    /*Iteriert das userRoles-Objekt für den Renderprozess*/
     renderUserRoles: function(userId){
         var userRoles = [];
         this.data.roles.map((role) => {
@@ -84,6 +72,7 @@ UserRoles = React.createClass({
         });
         return userRoles;
     },
+    /*iteriert das RoleObjekt für den Renderprozess */
     renderRoles: function(){
         var roles = [];
         this.data.roles.map((role) => {
@@ -93,6 +82,7 @@ UserRoles = React.createClass({
         });
         return roles;
     },
+    /*aktualisiert den Zustand für das Eingabefeld*/
     updateSelectValue: function(evt){
         var channelId = getChannelId(evt.target.value, currentTeamId());
         this.setState({
@@ -101,6 +91,7 @@ UserRoles = React.createClass({
         });
 
     },
+    /*rendert die Auswahl an Channels im Select-Element*/
     renderSelections:function(){
         var channels = [];
         this.data.channels.map((channel) => {

@@ -1,11 +1,14 @@
 Listings = React.createClass({
+    /*Initialisierung von ReactMeteorData, um in der Komponente Meteors-Methoden anwenden zu können*/
     mixins: [ReactMeteorData],
+    /*Holt sich den Teamnamen und die Channels, die sich in diesem Team befinden*/
     getMeteorData(){
         var teamname = Session.get("team");
         return {
             channels: Channels.find({"team.teamName": teamname}).fetch()
         };
     },
+    /*Zustand für */
     getInitialState: function(){
         return{
             listVisible: false,
@@ -14,6 +17,7 @@ Listings = React.createClass({
             teamSidebar: false
         }
     },
+    /*Bevor Komponente eingefügt wird, wird reaktive Variable, für das Anzeigen der TeamSidebar angelegt. */
     componentWillMount(){
         var teamSidebarState = new ReactiveVar({open: null });
         this.c = Tracker.autorun(() => {
@@ -27,16 +31,19 @@ Listings = React.createClass({
     componentWillUnmount() {
         this.c.stop()
     },
+    /*öffnet TeamSidebar*/
     openSidebar: function(state){
         this.setState({
             teamSidebar: state
         })
     },
+    /*setzt privaten Channel*/
     handleChange: function(){
         this.setState({
             private: !this.state.private
         });
     },
+
     show: function(){
         this.setState({listVisible: true});
         document.addEventListener('click', this.hide);
@@ -45,6 +52,7 @@ Listings = React.createClass({
         this.setState({listVisible: false});
         document.removeEventListener('click', this.hide);
     },
+    /*rendert die Darstellung*/
     render(){
        var teamSidebar = null;
        var buttonName = {
@@ -83,6 +91,7 @@ Listings = React.createClass({
            );
     },
 
+    /*ruft Meteors Methode auf, um einen Channel zu erstllen*/
     createChannel: function () {
         var team = Teams.findOne({name: Session.get("team")});
         Meteor.call("channels.add", team._id, this.state.inputValue, this.state.private, function(err){
@@ -96,6 +105,7 @@ Listings = React.createClass({
             inputValue: ""
         });
     },
+    /*rendert Dialog für das Erstellen eines neuen Channels*/
     renderForm: function(){
       return(
         <div>
@@ -110,11 +120,13 @@ Listings = React.createClass({
         </div>
       );
     },
+    /*aktualisiert Eingabefeld für das Erstellen eines neuen Channels*/
     updateInputValue: function(evt) {
         this.setState({
             inputValue: evt.target.value
         });
     },
+    /*rendert die Channels, die von Meteor geholt wurden*/
    renderChannelList: function(){
        var channels = [];
 

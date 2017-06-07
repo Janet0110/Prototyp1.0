@@ -1,4 +1,5 @@
 Meteor.methods({
+    /*Überprüft, ob der Benutzer im Team die Berechtigung hat*/
     'hasPermission': function(permission, teamId,  userId ){
         if(Meteor.userId()){
             //is User admin or a user

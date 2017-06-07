@@ -1,10 +1,16 @@
 Meteor.methods({
+    /*Methode für das Einladen eines Benutzers in das Team*/
     'team.invite': function (userId, team, to, from, subject, text) {
+        /*Überprüft, ob es sich um ein authorisierter Benutzer handelt*/
         if(!userId){
             throw new Meteor.Error(401, 'Unauthorized access');
         }
+        /*für weiteres Ausführen anderer Methoden*/
         this.unblock();
+
+        /*validiert Email*/
         if(validateEmail(to)){
+            /*erstellt ein Invite-Document*/
             var inviteId = Invites.insert({
                email: to,
                 invited: false,
@@ -20,7 +26,7 @@ Meteor.methods({
                 requested: (new Date()).toISOString(),
                 accountCreated: false,
             });
-
+            /*sendet eine Email - Konfigurationsdatei muss angepasst werden (Serverangaben werden benötigt -> Mail-url.js*/
             Email.send({
                 to: to,
                 from: from,
@@ -31,16 +37,19 @@ Meteor.methods({
             throw new Meteor.Error("Error, Email isn't correct");
         }
     },
+    /*Methode für das Akzeptieren einer Einladung*/
     'acceptInvite': function(currentInvite, callback){
         try {
+            /*Überprüft, ob eine Einladung gesendet wurde*/
             var invite = Invites.find(currentInvite[0]._id).fetch()[0];
             if (!invite) {
                 throw new Meteor.Error("Invite not found!");
             }
+            /*holt sich die TeamId, für das die Einladung hervorgesehen ist*/
             var teamId = Invites.findOne({_id: invite._id}, {fields: {"inviteFor.teamId": 1}}).inviteFor.teamId;
-            //Search User
+            //Sucht den Benutzer, der eingeladen werden soll
             var user = Meteor.users.find({"emails.address": invite.email}).fetch()[0];
-            //user already registered
+            //wenn Benutzer bereits registriert ist, wird der Benutzer zum Team hinzugefügt
             if (user) {
                 Invites.update({_id: invite._id}, {$set: {accountCreated: true}});
                 if (Teams.findOne({_id: teamId, "users.user": user._id})) {

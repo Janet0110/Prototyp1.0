@@ -1,10 +1,6 @@
 Meteor.methods({
+    /*Aktualisiert die Berechtigung*/
     'updatePermission': function(permission, role, change){
-        console.log("perm: " + permission);
-        console.log("role " + role);
-        console.log("change: " + change);
-
-
         if(change === "pull"){
             Permissions.update(
                 { _id: permission },

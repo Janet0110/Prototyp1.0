@@ -1,13 +1,15 @@
 Meteor.methods({
+    /*Methode für das Erstellen eines neuen Channels*/
     'channels.add': function (teamId, channelName, isPrivate, callback) {
         var isPrivate = isPrivate;
         if(!isPrivate){
             isPrivate = false;
         }
+        /*Überprüft, ob es sich um ein authorisierter Benutzer handelt*/
         if (!this.userId) {
             throw new Meteor.Error("Unauthorized access");
         }else{
-            //Überprüfen, ob Channel exisitert im Team (Erstellt den Channel mit den gegebenen Werten)
+            //Überprüfen, ob Channel im Team exisitert(Erstellt den Channel mit den gegebenen Werten)
             if(Channels.find({$and: [{"team._id": teamId}, {name: channelName }]}).count() == 0){
                 var team = Teams.find({_id: teamId}).fetch();
                 var channel = {
@@ -24,7 +26,9 @@ Meteor.methods({
                         teamName: team[0].name
                     }
                 };
+                /*fügt Channel der Collection Channels hinzu*/
                 var channelInserted = Channels.insert(channel);
+                /*weist dem Channelerstelle die Rolle Owner hinzu*/
                 if(channelInserted){
                     Meteor.call('addUserToChannelRole', Rol.OWNER, teamId, Meteor.userId(), null, channelName);
 
@@ -40,16 +44,6 @@ Meteor.methods({
                     var role = Rol.MEMBER;
                     for(var i = 0; i< users.length; i++){
                         Meteor.call('channel.addUser', channelInserted, users[i].user);
-//
-//
-//  Channels.update({_id: channelInserted}, { $addToSet: {
-//                            'users': {
-//                                user: users[i].user
-//                            }
-//                        }});
-//                        if(users[i].user !== Meteor.userId()){
-//                            Meteor.call('addUserToChannelRole', role, teamId, users[i].user, null, channelName);
-//                        }channelId, channelName, userId, teamId, role)
                         Meteor.call('channel.addUserWithRole', channelInserted, users[i].user, teamId, role);
                     }
                 }
@@ -60,6 +54,7 @@ Meteor.methods({
         }
     },
 
+    /*liefert Channel durch Angabe des Channelnamens und der TeamId*/
     'channel.getByName': function(channelName, teamId){
         return Channels.findOne({$and: [{name: channelName}, {"team._id": teamId }]})._id;
     }

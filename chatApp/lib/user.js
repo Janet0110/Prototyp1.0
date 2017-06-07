@@ -1,3 +1,4 @@
+/*Funktionen für User*/
 User = {
   get: function() {
     return Meteor.user() || {};

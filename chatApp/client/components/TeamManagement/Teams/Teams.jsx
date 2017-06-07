@@ -1,18 +1,17 @@
 TeamList = React.createClass({
+    /*Initialisierung von ReactMeteorData, um in der Komponente Meteors-Methoden anwenden zu können*/
     mixins: [ReactMeteorData],
+    /*Holt sich die Teams, in denen der Benutzer eingetragen ist*/
     getMeteorData(){
-//        var handle = Meteor.subscribe('myTeams', User.id());
         var teams = [];
-//        if(handle.ready()){
             teams = Teams.find({"users.user": User.id()}).fetch();
-//        }
         return{
             teams
         };
     },
+    /*rendert die Darstellung*/
     render: function(){
         return (
-
             <div className="container">
                 <div className="row">
                     <div className="col-md-6 col-md-offset-3" >
@@ -35,6 +34,7 @@ TeamList = React.createClass({
         );
     },
 
+    /*iteriert Objekt, um die Liste der vorhandenen Teams anzuzeigen*/
     renderTeamList: function(){
         var teams = [];
         this.data.teams.map((doc) => {

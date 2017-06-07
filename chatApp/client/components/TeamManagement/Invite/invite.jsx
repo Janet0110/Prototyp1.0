@@ -1,5 +1,7 @@
 Invite = React.createClass({
+    /*Initialisierung von ReactMeteorData, um in der Komponente Meteors-Methoden anwenden zu können*/
     mixins: [ReactMeteorData],
+    /*registriert sich an Invite-Publish-Methode, um die Einladung anzunehmen*/
     getMeteorData(){
         var handle = Meteor.subscribe("invite", this.props.inviteId);
         var invite = [];
@@ -10,15 +12,17 @@ Invite = React.createClass({
             invite : invite
         };
     },
+    /*Zustand ob Benutzer, der eingeladen wurde, bereits regisitriert ist*/
     getInitialState(){
         return {
             register: false
         }
     },
+    /*Einladung akzeptieren */
     onSubmit: function(e){
         e.preventDefault();
         var self = this;
-
+        /*Aufruf Methode acceptInvite, um Einladung zu akzeptieren*/
         Meteor.call("acceptInvite", this.data.invite, function(err, result){
             if(err){
                 console.log(err);
@@ -35,12 +39,14 @@ Invite = React.createClass({
             }
         });
     },
+
     setRegisterState: function(){
         this.setState({
             register: true
         })
     },
 
+    /*rendert die Darstellung*/
     render: function(){
         var teamName ="";
         var userName ="";
